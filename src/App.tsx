@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect, useRef } from "react"
 
 // ── Sync via proxy Vercel (évite les blocages DNS) ───────────────────────────

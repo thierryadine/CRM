@@ -1,24 +1,26 @@
 // @ts-nocheck
 import { useState, useEffect, useRef } from "react"
 
-// ── Sync via proxy Vercel (évite les blocages DNS) ───────────────────────────
+// ── Firebase Realtime Database ───────────────────────────────────────────────
+const FB_URL = 'https://crm-groupe-opera-default-rtdb.europe-west1.firebasedatabase.app/crm.json'
+
 async function sbLoad() {
   try {
-    const res = await fetch('/api/load')
+    const res = await fetch(FB_URL)
     if (!res.ok) return null
-    return await res.json()
+    const data = await res.json()
+    return data
   } catch(e) { return null }
 }
 
 async function sbSave(data) {
   try {
-    const res = await fetch('/api/save', {
-      method: 'POST',
+    const res = await fetch(FB_URL, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     })
-    const result = await res.json()
-    return result.ok
+    return res.ok
   } catch(e) { return false }
 }
 

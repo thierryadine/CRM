@@ -1,27 +1,23 @@
-// @ts-nocheck
 import { useState, useEffect, useRef } from "react"
 
-// ── Supabase ──────────────────────────────────────────────────────────────────
-const SB_URL = 'https://ybnafhfijzzcqmakfzy.supabase.co'
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibmFmaGZpamp6emNxbWFrZnp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MjYwODMsImV4cCI6MjA5MjEwMjA4M30.QCb5VPm40ZYN8V3-pZQnKav0s1gP39N4Pbn7sW0k0Hc'
-const SB_H = { 'apikey':SB_KEY, 'Authorization':`Bearer ${SB_KEY}`, 'Content-Type':'application/json' }
-
+// ── Sync via proxy Vercel (évite les blocages DNS) ───────────────────────────
 async function sbLoad() {
   try {
-    const res = await fetch(`${SB_URL}/rest/v1/crm_data?id=eq.groupe-opera&select=data`, { headers: SB_H })
-    const rows = await res.json()
-    return rows?.[0]?.data || null
+    const res = await fetch('/api/load')
+    if (!res.ok) return null
+    return await res.json()
   } catch(e) { return null }
 }
 
 async function sbSave(data) {
   try {
-    const res = await fetch(`${SB_URL}/rest/v1/crm_data`, {
+    const res = await fetch('/api/save', {
       method: 'POST',
-      headers: { ...SB_H, 'Prefer': 'resolution=merge-duplicates' },
-      body: JSON.stringify({ id: 'groupe-opera', data, updated_at: new Date().toISOString() })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     })
-    return res.ok
+    const result = await res.json()
+    return result.ok
   } catch(e) { return false }
 }
 

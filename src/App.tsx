@@ -1,9 +1,8 @@
-// @ts-nocheck
 import { useState, useEffect, useRef } from "react"
 
 // ── Supabase ──────────────────────────────────────────────────────────────────
 const SB_URL = 'https://ybnafhfijzzcqmakfzy.supabase.co'
-const SB_KEY = 'sb_publishable_aGXQOsctLaGUN_bcE5bpNg_F8IoP_kr'
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibmFmaGZpamp6emNxbWFrZnp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MjYwODMsImV4cCI6MjA5MjEwMjA4M30.QCb5VPm40ZYN8V3-pZQnKav0s1gP39N4Pbn7sW0k0Hc'
 const SB_H = { 'apikey':SB_KEY, 'Authorization':`Bearer ${SB_KEY}`, 'Content-Type':'application/json' }
 
 async function sbLoad() {
